@@ -19,6 +19,7 @@ def get_tokens_for_user(user):
 
 
 class LoginAPIView(APIView):
+    serializer_class = UserLoginSerializer
     def post(self, request):
         try:
             data = request.data
@@ -52,6 +53,7 @@ class LoginAPIView(APIView):
 
 
 class RegisterAPIView(APIView):
+    serializer_class = UserRegisterSerializer
     def post(self, request):
         try:
             data = request.data
