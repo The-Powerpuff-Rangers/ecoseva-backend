@@ -1,0 +1,26 @@
+# Virtual Environments
+kb_venv
+
+# VSCode Configs
+.vscode
+
+# .pyc
+*.pyc
+
+# database files
+db.sqlite3
+
+# tmp folder
+tmp
+
+# node_modules folders
+node_modules
+
+# .env files
+.env
+
+# static files
+staticfiles/**/*
+
+# migrations
+migrations
