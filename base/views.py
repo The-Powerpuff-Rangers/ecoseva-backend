@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 
-from .serializers import UserLoginSerializer, UserRegisterSerializer
+from .serializers import UserLoginSerializer, UserRegisterSerializer, UserEditSerializer
 
 
 def get_tokens_for_user(user):
@@ -18,6 +18,7 @@ def get_tokens_for_user(user):
 
 class LoginAPIView(APIView):
     serializer_class = UserLoginSerializer
+
     def post(self, request):
         try:
             data = request.data
@@ -52,6 +53,7 @@ class LoginAPIView(APIView):
 
 class RegisterAPIView(APIView):
     serializer_class = UserRegisterSerializer
+
     def post(self, request):
         try:
             data = request.data
@@ -73,6 +75,31 @@ class RegisterAPIView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+        except Exception as e:
+            return Response(
+                {
+                    "message": "Something went wrong",
+                    "errors": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class EditUserAPIView(APIView):
+    serializer_class = UserEditSerializer
+
+    def put(self, request):
+        try:
+            data = request.data
+            user = request.user
+            user.name = data["name"]
+            user.dob = data["dob"]
+            user.emergency_contact = data["emergency_contact"]
+            user.note_about_user = data["note_about_user"]
+            user.save()
+            return Response(
+                {"message": "User updated successfully"}, status=status.HTTP_200_OK
+            )
         except Exception as e:
             return Response(
                 {
