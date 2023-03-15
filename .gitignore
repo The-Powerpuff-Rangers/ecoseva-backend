@@ -24,3 +24,9 @@ staticfiles/**/*
 
 # migrations
 migrations
+
+# env
+.env
+
+# DS_Store
+.DS_Store

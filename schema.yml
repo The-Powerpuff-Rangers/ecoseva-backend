@@ -1,31 +1,169 @@
 openapi: 3.0.3
 info:
-  title: ___TITLE___
+  title: KATHARI
   version: 1.0.0
-  description: ___DESCRIPTION___
+  description: Trash Segregation Unit - Backend
 paths:
+  /api/create-dustbin/:
+    post:
+      operationId: create_dustbin_create
+      tags:
+      - create-dustbin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dustbin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dustbin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Dustbin'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dustbin'
+          description: ''
+  /api/create-group-group/:
+    post:
+      operationId: create_group_group_create
+      tags:
+      - create-group-group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DustbinGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DustbinGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DustbinGroup'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DustbinGroup'
+          description: ''
+  /api/dustbin-edit/:
+    put:
+      operationId: dustbin_edit_update
+      tags:
+      - dustbin-edit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dustbin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dustbin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Dustbin'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dustbin'
+          description: ''
+  /api/list-groups/:
+    get:
+      operationId: list_groups_retrieve
+      tags:
+      - list-groups
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DustbinGroup'
+          description: ''
+  /api/list-users/:
+    get:
+      operationId: list_users_retrieve
+      tags:
+      - list-users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
   /api/login/:
     post:
       operationId: login_create
       tags:
       - login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
       security:
       - jwtAuth: []
       - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLogin'
+          description: ''
   /api/register/:
     post:
       operationId: register_create
       tags:
       - register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
       security:
       - jwtAuth: []
       - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
   /api/schema/:
     get:
       operationId: schema_retrieve
@@ -250,8 +388,90 @@ paths:
               schema:
                 $ref: '#/components/schemas/TokenVerify'
           description: ''
+  /api/user-edit/:
+    put:
+      operationId: user_edit_update
+      tags:
+      - user-edit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEdit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserEdit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserEdit'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEdit'
+          description: ''
 components:
   schemas:
+    Dustbin:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        location:
+          type: string
+          maxLength: 255
+        status:
+          type: string
+          maxLength: 255
+        capacity:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - capacity
+      - created_at
+      - id
+      - location
+      - updated_at
+    DustbinGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          type: integer
+        dustbins:
+          type: integer
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
+      - user
     TokenObtainPair:
       type: object
       properties:
@@ -291,6 +511,87 @@ components:
           writeOnly: true
       required:
       - token
+    UserEdit:
+      type: object
+      properties:
+        phone:
+          type: string
+          maxLength: 20
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        name:
+          type: string
+          maxLength: 255
+      required:
+      - email
+      - name
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        password:
+          type: string
+          maxLength: 128
+      required:
+      - email
+      - password
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        phone:
+          type: string
+          maxLength: 20
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        name:
+          type: string
+          maxLength: 255
+        dob:
+          type: string
+          format: date
+        date_joined:
+          type: string
+          format: date-time
+      required:
+      - dob
+      - email
+      - id
+      - name
+    UserRegister:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        name:
+          type: string
+          maxLength: 255
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        dob:
+          type: string
+          format: date
+      required:
+      - dob
+      - email
+      - name
+      - password
   securitySchemes:
     jwtAuth:
       type: http
