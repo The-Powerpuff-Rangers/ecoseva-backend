@@ -1,18 +1,12 @@
 from rest_framework import serializers
 
-from .models import UserAccount
-
-
-class UserEditSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserAccount
-        fields = ["phone", "note_about_user", "emergency_contact"]
+from .models import UserAccount, DustbinGroup, Dustbin
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
-        fields = ["email", "name", "password", "dob", "emergency_contact"]
+        fields = ["email", "name", "password", "dob"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
@@ -42,3 +36,33 @@ class UserLoginSerializer(serializers.ModelSerializer):
         if not user.check_password(password):
             raise serializers.ValidationError("Incorrect password.")
         return data
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAccount
+        fields = ["id", "phone", "email", "name", "dob", "date_joined"]
+
+
+class UserEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAccount
+        fields = ["phone", "email", "name"]
+
+
+class DustbinGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DustbinGroup
+        fields = "__all__"
+
+
+class DustbinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dustbin
+        fields = "__all__"
+
+
+class DustbinEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dustbin
+        fields = ["status", "capacity"]

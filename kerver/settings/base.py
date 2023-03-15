@@ -105,9 +105,13 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': '___TITLE___',
-    'DESCRIPTION': '___DESCRIPTION___',
+    'TITLE': 'EcoSeva',
+    'DESCRIPTION': 'Trash Segregation Unit - Backend',
     'VERSION': '1.0.0',
+    'LICENSE': {
+        'name': 'GNU General Public License v3.0',
+        'url': 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+    },
 
     'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
