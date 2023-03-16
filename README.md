@@ -1,4 +1,9 @@
 # EcoSeva
+![Mockup4x](https://user-images.githubusercontent.com/69671407/225647892-b5c3453d-ab31-4169-8500-d531f0c1c60f.png)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+
 
 This is a Django project that contains backend code for the `EcoSeva` wriiten in Django. This handles the registration of users, the creation of groups, `geo-location` of users, `reverse geocoding`, etc.
 
