@@ -1,19 +1,11 @@
 from django.urls import path
 
-from .views import (
-    CreateDustbinAPIView,
-    CreateDustbinGroupAPIView,
-    EditDustbinAPIView,
-    EditUserAPIView,
-    ListDustbinGroupAPIView,
-    ListUserAPIView,
-    LoginAPIView,
-    RegisterAPIView,
-    ListDustbinsAPIView,
-    AddDustbinToGroupAPIView,
-    DeleteDustbinFromGroupAPIView,
-    EditDustbinGroupAPIView,
-)
+from .views import (AddDustbinToGroupAPIView, CreateDustbinAPIView,
+                    CreateDustbinGroupAPIView, DeleteDustbinFromGroupAPIView,
+                    DeleteDustbinGroupAPIView, EditDustbinAPIView,
+                    EditDustbinGroupAPIView, EditUserAPIView,
+                    ListDustbinGroupAPIView, ListDustbinsAPIView,
+                    ListUserAPIView, LoginAPIView, RegisterAPIView)
 
 urlpatterns = [
     path("api/register/", RegisterAPIView.as_view(), name="register"),
@@ -33,6 +25,11 @@ urlpatterns = [
         "api/delete-dustbin-from-group/<int:pk>",
         DeleteDustbinFromGroupAPIView.as_view(),
         name="delete-dustbin-from-group",
+    ),
+    path(
+        "api/delete-dustbin-group/<int:pk>",
+        DeleteDustbinGroupAPIView.as_view(),
+        name="delete-group",
     ),
     path("api/user-edit/", EditUserAPIView.as_view(), name="edit-user"),
     path("api/dustbin-edit/", EditDustbinAPIView.as_view(), name="edit-dustbin"),

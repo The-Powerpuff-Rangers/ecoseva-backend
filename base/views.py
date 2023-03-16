@@ -332,3 +332,24 @@ class EditDustbinGroupAPIView(APIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+        
+class DeleteDustbinGroupAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DustbinGroupSerializer
+
+    def delete(self, request, pk):
+        try:
+            group = DustbinGroup.objects.get(id=pk)
+            group.delete()
+            return Response(
+                {"message": "Dustbin group deleted successfully"},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {
+                    "message": "Something went wrong",
+                    "errors": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
