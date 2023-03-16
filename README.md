@@ -36,3 +36,46 @@ This project includes support for Swagger UI, which provides a user-friendly int
 - Start the development server by running `python manage.py runserver`.
 - Visit http://localhost:8000/api/schema/docs in your web browser to view the Swagger UI page.
 - Use the interface to explore the API endpoints and test them by sending requests.
+
+## Project Structure
+
+```
+.
+├── CONTRIBUTING.md
+├── LICENCE
+├── README.md
+├── backend
+├── base
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── managers.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── config
+│   └── config.ini
+├── db.sqlite3
+├── kerver
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── dev.py
+│   │   └── prod.py
+│   ├── urls.py
+│   └── wsgi.py
+├── manage.py
+├── requirements
+│   └── requirements.txt
+├── schema.yml
+├── static
+│   └── json
+│       └── overview.json
+└── tools
+    ├── commit-msg
+    └── setup.sh
+```
