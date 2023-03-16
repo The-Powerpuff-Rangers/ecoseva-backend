@@ -28,3 +28,11 @@ This project includes a devcontainer configuration for use with Visual Studio Co
 - Run the migrations by running python manage.py migrate.
 - Start the development server by running python manage.py runserver.
 - Visit http://localhost:8000/ in your web browser to view the project.
+
+## Swagger UI Support
+
+This project includes support for Swagger UI, which provides a user-friendly interface for exploring and testing the project's API endpoints. To use Swagger UI, follow these steps:
+
+- Start the development server by running python manage.py runserver.
+- Visit http://localhost:8000/api/schema/docs in your web browser to view the Swagger UI page.
+- Use the interface to explore the API endpoints and test them by sending requests.
