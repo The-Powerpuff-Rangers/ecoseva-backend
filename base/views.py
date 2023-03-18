@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -5,17 +7,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .chatbot.bot import ChatBot
 from .models import UserAccount
-from .serializers import (
-    Dustbin,
-    DustbinGroup,
-    DustbinGroupSerializer,
-    DustbinSerializer,
-    UserEditSerializer,
-    UserLoginSerializer,
-    UserProfileSerializer,
-    UserRegisterSerializer,
-)
+from .serializers import (Dustbin, DustbinGroup, DustbinGroupSerializer,
+                          DustbinSerializer, UserEditSerializer,
+                          UserLoginSerializer, UserProfileSerializer,
+                          UserRegisterSerializer)
 
 
 def get_tokens_for_user(user):
@@ -244,7 +241,6 @@ class EditDustbinAPIView(APIView):
 
 
 class ListDustbinsAPIView(APIView):
-    permission_classes = [IsAuthenticated]
     serializer_class = DustbinSerializer
 
     def get(self, request):
@@ -310,6 +306,7 @@ class DeleteDustbinFromGroupAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+
 class EditDustbinGroupAPIView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = DustbinGroupSerializer
@@ -332,7 +329,8 @@ class EditDustbinGroupAPIView(APIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        
+
+
 class DeleteDustbinGroupAPIView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = DustbinGroupSerializer
@@ -345,6 +343,28 @@ class DeleteDustbinGroupAPIView(APIView):
                 {"message": "Dustbin group deleted successfully"},
                 status=status.HTTP_200_OK,
             )
+        except Exception as e:
+            return Response(
+                {
+                    "message": "Something went wrong",
+                    "errors": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+api_key = os.environ.get("API_KEY_OPENAI")
+chatbot = ChatBot("gpt-3.5-turbo", api_key)
+
+
+class ChatBotAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = None
+
+    def post(self, request):
+        try:
+            data = request.data["message"]
+            return Response(chatbot.chat(data))
         except Exception as e:
             return Response(
                 {
