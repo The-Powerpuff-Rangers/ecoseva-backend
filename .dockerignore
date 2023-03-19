@@ -1,2 +1,11 @@
 # Dockerfile
 Dockerfile
+
+# requirements.txt
+requirements/requirements.txt
+
+# tmp
+tmp
+
+# virtualenv
+kb_venv
