@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+import requests
 
 from .chatbot.bot import ChatBot
 from .models import UserAccount
@@ -387,6 +388,39 @@ class UserDataAPIView(APIView):
                     "phone": user.phone,
                     "dob": user.dob,
                 },
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {
+                    "message": "Something went wrong",
+                    "errors": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+maps_api_key = "AIzaSyCI_eGHLBzYnD-xl1fKljJ1GIqyZwQs4oU"
+
+
+class DirectionsAPIView(APIView):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = None
+
+    def post(self, request):
+        try:
+            url = "https://maps.googleapis.com/maps/api/distancematrix/json"
+
+            
+            data = request.data
+            origin = data["origin"]
+            destination = data["destination"]
+
+            r = requests.get(url, params={"key": maps_api_key, "origins": origin, "destinations": destination})
+            
+            print(r.url)
+            return Response(
+                r.json(),
                 status=status.HTTP_200_OK,
             )
         except Exception as e:
