@@ -6,7 +6,7 @@ from .views import (AddDustbinToGroupAPIView, CreateDustbinAPIView,
                     EditDustbinGroupAPIView, EditUserAPIView,
                     ListDustbinGroupAPIView, ListDustbinsAPIView,
                     ListUserAPIView, LoginAPIView, RegisterAPIView,
-                    ChatBotAPIView)
+                    ChatBotAPIView, UserDataAPIView)
 
 urlpatterns = [
     path("api/register/", RegisterAPIView.as_view(), name="register"),
@@ -43,5 +43,6 @@ urlpatterns = [
     path("api/list-users/", ListUserAPIView.as_view(), name="list-users"),
     path("api/list-groups/", ListDustbinGroupAPIView.as_view(), name="list-groups"),
 
+    path("api/user-data/", UserDataAPIView.as_view(), name="user-data"),
     path("api/chatbot/", ChatBotAPIView.as_view(), name="chatbot"),
 ]

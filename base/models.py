@@ -28,9 +28,10 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
 
 class Dustbin(models.Model):
+    coordinates = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    status = models.CharField(max_length=255, default="active")
     capacity = models.IntegerField()
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

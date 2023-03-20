@@ -9,10 +9,16 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .chatbot.bot import ChatBot
 from .models import UserAccount
-from .serializers import (Dustbin, DustbinGroup, DustbinGroupSerializer,
-                          DustbinSerializer, UserEditSerializer,
-                          UserLoginSerializer, UserProfileSerializer,
-                          UserRegisterSerializer)
+from .serializers import (
+    Dustbin,
+    DustbinGroup,
+    DustbinGroupSerializer,
+    DustbinSerializer,
+    UserEditSerializer,
+    UserLoginSerializer,
+    UserProfileSerializer,
+    UserRegisterSerializer,
+)
 
 
 def get_tokens_for_user(user):
@@ -43,7 +49,7 @@ class LoginAPIView(APIView):
                 else:
                     return Response(
                         {"detail": "Invalid credentials"},
-                        status=status.HTTP_401_UNAUTHORIZED,
+                        status=status.HTTP_404_NOT_FOUND,
                     )
             return Response(
                 {"message": "Something went wrong", "errors": serializer.errors},
@@ -65,14 +71,6 @@ class RegisterAPIView(APIView):
     def post(self, request):
         try:
             data = request.data
-            if data["password"] != data["confirm_password"]:
-                return Response(
-                    {
-                        "message": "Something went wrong",
-                        "errors": "Password and confirm password do not match",
-                    },
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
             serializer = UserRegisterSerializer(data=data)
             if serializer.is_valid():
                 user = serializer.save()
@@ -221,7 +219,7 @@ class EditDustbinAPIView(APIView):
     def put(self, request):
         try:
             data = request.data
-            dustbin = Dustbin.objects.get(id=data["id"])
+            dustbin = Dustbin.objects.get(coordinates=data["coordinates"])
             dustbin.status = data["status"]
             dustbin.capacity = data["capacity"]
 
@@ -365,6 +363,32 @@ class ChatBotAPIView(APIView):
         try:
             data = request.data["message"]
             return Response(chatbot.chat(data))
+        except Exception as e:
+            return Response(
+                {
+                    "message": "Something went wrong",
+                    "errors": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class UserDataAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = None
+
+    def get(self, request):
+        try:
+            user = request.user
+            return Response(
+                {
+                    "name": user.name,
+                    "email": user.email,
+                    "phone": user.phone,
+                    "dob": user.dob,
+                },
+                status=status.HTTP_200_OK,
+            )
         except Exception as e:
             return Response(
                 {
